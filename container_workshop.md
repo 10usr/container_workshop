@@ -29,7 +29,7 @@ With containarizations we use a lot of pre-build images, so we don't have to bui
   - collection of private images
 
 
-## [Lab 1: Our First Containers](lab1)
+## [Lab 1: Our First Containers](lab1.md)
 
 <br />
 
