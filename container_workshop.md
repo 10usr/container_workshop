@@ -18,7 +18,6 @@ Here we see examples of private and public registries:
 **The workshop contains 9 lab's, who will guide us through the basics of containers.**
 
 * [Lab 1: Our First Containers](#lab-1-our-first-containers)
-* [Lab x: Root Containers vs User Containers](?)
 * [Lab 2: Background Containers](#lab-2-background-containers)
 * [Lab 3: Restarting and Attaching to Containers](#lab-3-restarting-and-attaching-to-containers)
 * [Lab 4: Understanding Container Images](#lab-4-understanding-container-images)
