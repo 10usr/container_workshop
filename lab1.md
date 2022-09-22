@@ -31,7 +31,7 @@ With containarizations we use a lot of pre-build images, so we don't have to bui
 
 To run you'r first container with podman, just run the following command:
 ```
-$ podman run busybox echo hello world
+$ podman run containers.cicd.ontwikkel.local/levitate/busybox echo hello world
 hello world
 ```
 That was our first container!
@@ -47,13 +47,15 @@ That was our first container!
 
 Let's run a more exciting container:
 ```
-$ podman run -it ubuntu
+$ podman run -it containers.cicd.ontwikkel.local/levitate/ubuntu
 ```
 - This is a brand new container.
 - It runs a bare-bones, no-frills ubuntu system.
 - `-it` is shorthand for `-i -t`.
 - `-i` tells podman to connect us to the container's stdin.
 - `-t` tells podman that we want a pseudo-terminal.
+
+<br />
 
 Do something in our container.\
 Try to run figlet in our container.
@@ -74,6 +76,7 @@ root@04c0bb0a6c07:/# dpkg -l | wc -l
 - `wc -l` counts them
 - If you have a Debian or Ubuntu machine, you can run the same command and compare the results.
 
+<br />
 
 We want figlet, so let's install it:
 ```
@@ -88,7 +91,7 @@ Reading package lists... Done
 
 ...
 ```
-One minute later, figlet is installed!
+One minute later, figlet is installed! So lets test figlet
 ```
  # figlet hello
      _          _ _
@@ -109,7 +112,7 @@ Just exit the shell, like you would usually do
 
 What if we start a new container, and try to run figlet again?
 ```
-$ podman run -it ubuntu 
+$ podman run -it containers.cicd.ontwikkel.local/levitate/ubuntu 
 root@b13c164401fb:/# figlet 
 bash: figlet: command not found
 ```

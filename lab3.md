@@ -6,16 +6,15 @@
 ### Objectives
 
 We have started containers in the foreground, and in the background. In this lab, we will see how to:
-
 -   Put a container in the background.
-
 -   Attach to a background container to bring it to the foreground.
-
 -   Restart a stopped container.
 
- Background and foreground
+<br />
 
-The distinction between foreground and background containers is arbitrary. From Docker's point of view, all containers are the same.
+### Background and foreground
+
+The distinction between foreground and background containers is arbitrary. From containers point of view, all containers are the same.
 
 All containers run the same way, whether there is a client attached to them or not. It is always possible to detach from a container, and to reattach to a container.
 
@@ -27,38 +26,29 @@ Analogy: attaching to a container is like plugging a keyboard and screen to a ph
 ### **Step 1:** Detaching from a container
 
 -   If you have started an *interactive* container (with option `-it`), you can detach from it.
-
 -   The "detach" sequence is ^P^Q.
-
--   Otherwise you can detach by killing the Docker client.
+-   Otherwise you can detach by killing the container.
 
  (But not by hitting ^C, as this would deliver SIGINT to the container.)
 
 What does `-it` stand for?
 
 -   `-t` means "allocate a terminal."
-
 -   `-i` means "connect stdin to the terminal."
 
 <br />
 
 ### Specifying a custom detach sequence
 
--   You don't like ^P^Q? No problem!
-
- • You can change the sequence with `docker run --detach-keys`.
-
- • This can also be passed as a global option to the engine.
-
-Start a container with a custom detach command:
+Start a interactive container with command:
 ```
- $ docker run -ti --detach-keys ctrl-x,x hcscompany/clock
+ $ podman run -it containers.cicd.ontwikkel.local/levitate/clock
 ```
-Detach by hitting ^X x. (This is ctrl-x then x, not ctrl-x twice!)
+Detach by hitting ^P^Q.
 
 Check that our container is still running:
 ```
- $ docker ps -l
+ $ podman ps -l
 ```
 
 <br />
@@ -68,41 +58,28 @@ Check that our container is still running:
 
 You can attach to a container:
 ```
- $ docker attach <containerID>
+ $ podman attach <containerID>
 ```
 -   The container must be running.
-
 -   There *can* be multiple clients attached to the same container.
 
--   If you don't specify `--detach-keys` when attaching, it defaults back to ^P^Q.
+<br />
 
-Try it on our previous container:
-```
- $ docker attach $(docker ps -lq)
-```
-Check that ^X x doesn't work, but ^P ^Q does.
-
- Detaching from non-interactive containers
+Detaching from non-interactive containers
 
 -   **Warning:** if the container was started without `-it`...
-
     -   You won't be able to detach with ^P^Q.
-
     -   If you hit ^C, the signal will be proxied to the container.
-
--   Remember: you can always detach by killing the Docker client.
-
 
 <br />
 <br />
 
 ### **Step 3:** Checking container output
 
-• Use docker attach if you intend to send input to the container.
-
-• If you just want to see the output of a container, use docker logs.
+- Use podman attach if you intend to send input to the container.
+- If you just want to see the output of a container, use podman logs.
 ```
-$ docker logs --tail 1 --follow <containerID>
+$ podman logs --tail 1 --follow <containerID>
 ```
  
 <br />
@@ -114,36 +91,25 @@ When a container has exited, it is in stopped state.
 
 It can then be restarted with the start command.
 ```
- $ docker start <yourContainerID>
+ $ podman start <yourContainerID>
 ```
-The container will be restarted using the same options you launched it with.
-
+The container will be restarted using the same options you launched it with.\
 You can re-attach to it if you want to interact with it:
 ```
- $ docker attach <yourContainerID>
+ $ podman attach <yourContainerID>
 ```
-Use `docker ps -a` to identify the container ID of a previous hcscompany/clock container, and try those commands.
+Use `podman ps -a` to identify the container ID of a previous clock container, and try those commands.
 
 > Attaching to a REPL
-
 > -   REPL = Read Eval Print Loop
-
 > -   Shells, interpreters, TUI ...
-
-> -   Symptom: you docker attach, and see nothing
-
+> -   Symptom: you podman attach, and see nothing
 > -   The REPL doesn't know that you just attached, and doesn't print anything
-
 > -   Try hitting ^L or Enter
-
 > SIGWINCH
-
-> -   When you docker attach, the Docker Engine sends a couple of SIGWINCH signals to the container.
-
+> -   When you podman attach, a couple of SIGWINCH signals are send to the container.
 > -   SIGWINCH = WINdow CHange; indicates a change in window size.
-
 > -   This will cause some CLI and TUI programs to redraw the screen.
-
 > -   But not all of them.
 
 [back](container_workshop.md)

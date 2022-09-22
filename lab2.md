@@ -23,7 +23,7 @@ We will now see how to:
 We will run a small custom container.\
 This container just displays the time every second.
 ```
- $ podman run hcscompany/clock 
+ $ podman run containers.cicd.ontwikkel.local/levitate/clock 
  Fri Feb 20 00:28:53 UTC Fri Feb 20 00:28:54 UTC Fri Feb 20 00:28:55 UTC
  ...
 ```
@@ -40,7 +40,7 @@ This container just displays the time every second.
 
 Containers can be started in the background, with the `-d` flag (daemon mode):
 ```
- $ podman run -d hcscompany/clock 
+ $ podman run -d containers.cicd.ontwikkel.local/levitate/clock 
  47d677dcfba4277c6cc68fcaa51f932b544cab1a187c853b7d0caf4e8debe5ad
 ```
 -   We don't see the output of the container.
@@ -72,10 +72,10 @@ podman tells us:
 
 Let's start two more containers.
 ```
- $ podman run -d hcscompany/clock 
+ $ podman run -d containers.cicd.ontwikkel.local/levitate/clock 
  57ad9bdfc06bb4407c47220cf59ce21585dce9a1298d7a67488359aeaea8ae2a 
  
- $ podman run -d hcscompany/clock 
+ $ podman run -d hccontainers.cicd.ontwikkel.local/levitate/clock 
  068cc994ffd0190bbe025ba74e4c0771a5d8f14734af772ddee8dc1aaf20567d
 ```
 Check that `podman ps` correctly reports all 3 containers.
