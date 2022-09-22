@@ -86,6 +86,8 @@ ae9e91f3e0b68052232655ff7a6e4247dac73783bb43c53b1db2bd4ef4161451
 ```
 -   The build context is the `.` directory given to `podman build`.
 
+<br />
+
 **Executing each step**
 
 -   A container (840cb3533193) is created from the base image.
@@ -93,6 +95,8 @@ ae9e91f3e0b68052232655ff7a6e4247dac73783bb43c53b1db2bd4ef4161451
 -   The container is committed into an image (7257c37726a1).
 -   The build container (840cb3533193) is removed.
 -   The output of this step will be the base image for the next one.
+
+<br />
 
 **The caching system**
 
