@@ -1,40 +1,40 @@
 [back](container_workshop.md)
-## Lab 6: Building Images With A Dockerfile
+## Lab 6: Building Images With A Containerfile
+
+<br />
 
 ### Objectives
 
-We will build a container image automatically, with a Dockerfile.
+We will build a container image automatically, with a Containerfile.
 
 At the end of this lab, you will be able to:
+-   Write a Containerfile.
+-   Build an image from a Containerfile.
 
--   Write a Dockerfile.
+** Containerfile overview
+-   A Containerfile is a build recipe for a container image.
+-   It contains a series of instructions telling podman how an image is constructed.
+-   The podman build command builds an image from a Containerfile.
 
--   Build an image from a Dockerfile.
+<br />
+<br />
 
-** Dockerfile overview
+### Step 1: Writing our first Containerfile
 
--   A Dockerfile is a build recipe for a Docker image.
+Our Containerfile must be in a **new, empty directory**.
 
--   It contains a series of instructions telling Docker how an image is constructed.
-
--   The docker build command builds an image from a Dockerfile.
-
-### Step 1: Writing our first Dockerfile
-
-Our Dockerfile must be in a **new, empty directory**.
-
-1.  Create a directory to hold our Dockerfile. 
+1.  Create a directory to hold our Containerfile. 
 ```
 $ mkdir myimage
 ```
-2.  Create a Dockerfile inside this directory.
+2.  Create a Containerfile inside this directory.
 ```
  $ cd myimage
- $ vim Dockerfile
+ $ vim Containerfile
 ```
 Of course, you can use any other editor of your choice, if you are using a Windows device.
 
-Type this into our Dockerfile...
+Type this into our Containerfile...
 ```
 FROM ubuntu
 RUN apt-get update
@@ -42,79 +42,56 @@ RUN apt-get install figlet
 ```
 
 -   FROM indicates the base image for our build.
-
--   Each RUN line will be executed by Docker during the build.
-
+-   Each RUN line will be executed by podman during the build.
 -   Our RUN commands **must be non-interactive.**
-    (No input can be provided to Docker during the build.)
-
+    (No input can be provided to podman during the build.)
 -   In many cases, we will add the -y flag to apt-get.
+
+<br />
+<br />
 
 ### Step2: Build it!
 
 Save our file, then execute:
 ```
- $ docker build -t figlet:v1 .
+ $ podman build -t figlet:v1 .
 ```
 -  `-t` indicates the tag to apply to the image.
-
 -   `.` indicates the location of the *build context*.
-
 -   `:v1` tag it with a version number.
+ (We will talk more about the build context later; but to keep things simple: this is the directory where our Containerfile is located.)
 
- (We will talk more about the build context later; but to keep things simple: this is the directory where our Dockerfile is located.)
+<br />
 
-What happens when we build the image?
-
-The output of docker build looks like this:
+What happens when we build the image?\
+The output of podman build looks like this:
 ```
- $ docker build -t figlet:v1 .
- Sending build context to Docker daemon 2.048 kB Sending build context to Docker daemon
- Step 0 : FROM ubuntu
- ---> e54ca5efa2e9
- Step 1 : RUN apt-get update
- ---> Running in 840cb3533193
- ---> 7257c37726a1
- Removing intermediate container 840cb3533193 Step 2 : RUN apt-get install figlet
- ---> Running in 2b44df762a2f
- ---> f9e8f1642759
- Removing intermediate container 2b44df762a2f Successfully built f9e8f1642759
+ $ podman build -t figlet:v1 .
+STEP 1/3: FROM ubuntu
+STEP 2/3: RUN apt-get update
+Get:1 http://archive.ubuntu.com/ubuntu jammy InRelease [270 kB]
+Get:2 http://security.ubuntu.com/ubuntu jammy-security InRelease [110 kB]
+...
+STEP 3/3: RUN apt-get install figlet
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following NEW packages will be installed:
+  figlet
+...
+COMMIT figlet:v1
+--> ae9e91f3e0b
+Successfully tagged localhost/figlet:v1
+ae9e91f3e0b68052232655ff7a6e4247dac73783bb43c53b1db2bd4ef4161451
 ```
--   The output of the RUN commands has been omitted.
-
--   Let's explain what this output means.
-
-```
-Sending build context to Docker daemon 2.048 kB
-```
--   The build context is the `.` directory given to `docker build`.
-
--   It is sent (as an archive) by the Docker client to the Docker daemon.
-
--   This allows to use a remote machine to build using local files.
-
--   Be careful (or patient) if that directory is big and your link is slow.
+-   The build context is the `.` directory given to `podman build`.
 
 **Executing each step**
 
-```
-Step 1 : RUN apt-get update
-
----> Running in 840cb3533193 (...output of the RUN command...)
-
- ---> 7257c37726a1
-
-Removing intermediate container 840cb3533193
-```
-
 -   A container (840cb3533193) is created from the base image.
-
 -   The RUN command is executed in this container.
-
 -   The container is committed into an image (7257c37726a1).
-
 -   The build container (840cb3533193) is removed.
-
 -   The output of this step will be the base image for the next one.
 
 **The caching system**
@@ -122,26 +99,24 @@ Removing intermediate container 840cb3533193
 If you run the same build again, it will be instantaneous.
 
 Why?
-
--   After each build step, Docker takes a snapshot of the resulting image.
-
--   Before executing a step, Docker checks if it has already built the same sequence.
-
--   Docker uses the exact strings defined in your Dockerfile, so:
-
+-   After each build step, podman takes a snapshot of the resulting image.
+-   Before executing a step, podman checks if it has already built the same sequence.
+-   podman uses the exact strings defined in your Containerfile, so:
 -   `RUN apt-get install figlet cowsay` is different from
 
     * `RUN apt-get install cowsay figlet`
-
     * `RUN apt-get update` is not re-executed when the mirrors are updated
 
-You can force a rebuild with `docker build --no-cache` ....
+You can force a rebuild with `podman build --no-cache` ....
+
+<br />
+<br />
 
 ### Step 3: Running the image
 
 The resulting image is not different from the one produced manually.
 ```
- $ docker run -ti figlet:v1
+ $ podman run -ti figlet:v1
  root@91f3c974c9a1:/# figlet hello
      _          _ _
     | |__   ___| | | ___
@@ -152,64 +127,57 @@ The resulting image is not different from the one produced manually.
 -   Sweet is the taste of success!
 
 
- Using image and viewing history
-
-The history command lists all the layers composing an image.
-
+Using image and viewing history.\
+The history command lists all the layers composing an image.\
 For each layer, it shows its creation time, size, and creation command.
 
-When an image was built with a Dockerfile, each layer corresponds to a line of the Dockerfile.
+When an image was built with a Containerfile, each layer corresponds to a line of the Containerfile.
 ```
-$ docker history figlet:v1
+$ podman history figlet:v1
 
 <OUTPUT>
 ```
+
+<br />
+<br />
+
 ### Step 4: Introducing JSON syntax
 
-Most Dockerfile arguments can be passed in two forms:
+Most Containerfile arguments can be passed in two forms:
 
--   plain string:
-
+-   plain string:\
     `RUN apt-get install figlet`
-
--   JSON list:
-
+-   JSON list:\
     `RUN ["apt-get", "install", "figlet"]`
 
-Let's change our Dockerfile as follows!
+Let's change our Containerfile as follows!
 
 ```
  FROM ubuntu
-
  RUN apt-get update
-
  RUN ["apt-get", "install", "figlet"]
 ```
 
-Then build the new Dockerfile.
+Then build the new Containerfile.
 ```
- $ docker build -t figlet:v2 .
+ $ podman build -t figlet:v2 .
  <output>
 ```
+
+<br />
 
 **JSON syntax vs string syntax**
 
 Compare the new history:
 ```
-$ docker history figlet:v2
-IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
-b7fa8e20196b        2 days ago          /bin/sh -c apt-get install figlet               1.02 MB
-f4e91ba1a062        2 days ago          /bin/sh -c apt-get update                       40.2 MB
-104bec311bcd        3 months ago        /bin/sh -c #(nop)  CMD ["/bin/bash"]            0 B
-<missing>           3 months ago        /bin/sh -c mkdir -p /run/systemd && echo '...   7 B
-<missing>           3 months ago        /bin/sh -c sed -i 's/^#\s*\(deb.*universe\...   1.9 kB
-<missing>           3 months ago        /bin/sh -c rm -rf /var/lib/apt/lists/*          0 B
-<missing>           3 months ago        /bin/sh -c set -xe   && echo '#!/bin/sh' >...   745 B
-<missing>           3 months ago        /bin/sh -c #(nop) ADD file:7529d28035b43a2...   129 MB
-
+$ podman history figlet:v2
+ID            CREATED         CREATED BY                                     SIZE        COMMENT
+9fbc597a5d70  22 seconds ago  /bin/sh -c ["apt-get", "install", "figlet"]    1.66 MB     FROM 497e92820a8d
+497e92820a8d  28 minutes ago  /bin/sh -c apt-get update                      37.3 MB     FROM docker.io/library/ubuntu:latest
+2dc39ba059dc  2 weeks ago     /bin/sh -c #(nop)  CMD ["bash"]                0 B         
+<missing>     2 weeks ago     /bin/sh -c #(nop) ADD file:a7268f82a862198...  80.4 MB
 ```
 -   JSON syntax specifies an *exact* command to execute.
-
 -   String syntax specifies a command to be wrapped within `/bin/sh -c "..."`.
 
 [back](container_workshop.md)

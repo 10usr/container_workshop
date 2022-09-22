@@ -71,28 +71,26 @@ If an image is read-only, how do we change it?
 
 <br />
 
-**Creating the first images**
+**Creating the first images** ???
 
-There is a special empty image called scratch.
--   It allows to *build from scratch*.
+        There is a special empty image called scratch.
+        -   It allows to *build from scratch*.
 
-The docker import command loads a tarball into Docker.
--   The imported tarball becomes a standalone image.
--   That new image has a single layer.
+        The podman import command import a tarball and save it as a filesystem image.
+        -   The imported tarball becomes a standalone image.
+        -   That new image has a single layer.
 
-Note: you will probably never have to do this yourself.
+        Note: you will probably never have to do this yourself.
 
 <br />
 
 **Creating other images**
 
-`docker commit`
-
+`podman commit`
 -   Saves all the changes made to a container into a new layer.
 -   Creates a new image (effectively a copy of the container).
 
-`docker build`
-
+`podman build`
 -   Performs a repeatable build sequence.
 -   This is the preferred method!
 
@@ -104,9 +102,7 @@ We will explain both methods in a moment.
 
 There are three namespaces:
 
--   Official images
- e.g. ubuntu, busybox ...
-
+-   Official images e.g. ubuntu, busybox ...
 -   User (and organizations) images e.g. hcscompany/clock
 -   Self-hosted images
 
@@ -118,15 +114,15 @@ Let's explain each of them.
 
 **Root namespace**
 
-The root namespace is for official images. They are put there by ., but they are generally authored and maintained by third parties.
+The root namespace is for official images. They are put there by .???, but they are generally authored and maintained by third parties.
 
 Those images include:
-
 -   Small, "swiss-army-knife" images like busybox.
 -   Distro images to be used as bases for your builds, like ubuntu, fedora...
 -   Ready-to-use components and services, like redis, postgresql... User namespace
 
-The user namespace holds images for Docker Hub users and organizations. For example:
+The user namespace holds images for Docker Hub users and organizations.\
+For example:
 
 `hcscompany/clock`
 
@@ -142,9 +138,7 @@ The image name is:
 
 **Self-Hosted namespace**
 
-This namespace holds images which are not hosted on Docker Hub, but on third party registries.
-
-They contain the hostname (or IP address), and optionally the port, of the registry server.
+This namespace holds images which are not hosted on Docker Hub, but on third party registries. They contain the hostname (or IP address), and optionally the port, of the registry server.
 
 For example:
 
@@ -153,15 +147,15 @@ For example:
 -   localhost:5000 is the host and port of the registry
 -   wordpress is the name of the image
 
-How do you store and manage images?
+How do you store and manage images?\
 Images can be stored:
 
--   On your Docker host.
--   In a Docker registry.
+-   On your local host.
+-   In a container registry.
 
-You can use the Docker client to download (pull) or upload (push) images.
+You can use podman to download (pull) or upload (push) images.
 
-To be more accurate: you can use the Docker client to tell a Docker server to push and pull images to and from a registry.
+To be more accurate: you can use podman to tell a server to push and pull images to and from a registry.
 
 <br />
 <br />
@@ -170,7 +164,7 @@ To be more accurate: you can use the Docker client to tell a Docker server to pu
 
 Let's look at what images are on our host now.
 ```
-$ docker images
+$ podman images
 REPOSITORY                                         TAG                 IMAGE ID            CREATED             SIZE
 mkerker/duckhunt                                   latest              5df5972ae7b5        2 months ago        771 MB
 node                                               latest              efe7b69d7b71        2 months ago        660 MB
@@ -187,7 +181,7 @@ hcscompany/clock                                   latest              12068b936
 
 We cannot list *all* images on a remote registry, but we can search for a specific keyword:
 ```
-$ docker search zookeeper
+$ podman search zookeeper
 NAME                          DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED
 jplock/zookeeper              Builds a docker image for Zookeeper versio...   159                  [OK]
 zookeeper                     Apache ZooKeeper is an open-source server ...   132                  [OK]
@@ -209,19 +203,19 @@ debezium/zookeeper            Zookeeper image required when running the ...   3 
 
 There are two ways to download images.
 
--   Explicitly, with `docker pull`.
--   Implicitly, when executing `docker run` and the image is not found locally.
+-   Explicitly, with `podman pull`.
+-   Implicitly, when executing `podman run` and the image is not found locally.
 
 Lets pulling an image:
 ```
-$ docker pull debian:jessie
+$ podman pull debian:jessie
 jessie: Pulling from library/debian
 6d827a3ef358: Pull complete
 Digest: sha256:72f784399fd2719b4cb4e16ef8e369a39dc67f53d978cd3e2e7bf4e502c7b793
 Status: Downloaded newer image for debian:jessie
 ```
 -   As seen previously, images are made up of layers.
--   Docker has downloaded all the necessary layers.
+-   podman has downloaded all the necessary layers.
 -   In this example, :jessie indicates which exact version of Debian we would like. It is a *version tag*.
 
 <br />
@@ -230,7 +224,7 @@ Status: Downloaded newer image for debian:jessie
 
 -   Images can have tags.
 -   Tags define image versions or variants.
--   `docker pull ubuntu` will refer to `ubuntu:latest`.
+-   `podman pull ubuntu` will refer to `ubuntu:latest`.
 -   The `:latest` tag is generally updated often.
 
 **When to (not) use tags**
@@ -254,7 +248,7 @@ In the next lab we tag an image.
 
 We've learned how to:
 -   Understand images and layers.
--   Understand Docker image namespacing.
+-   Understand container image namespacing.
 -   Search and download images.
 
 [back](container_workshop.md)
