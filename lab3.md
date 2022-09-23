@@ -42,7 +42,7 @@ What does `-it` stand for?
 
 Start a interactive container with command:
 ```
- $ podman run -it containers.cicd.ontwikkel.local/levitate/clock
+ $ podman run -it ${REGISTRY}/clock
 ```
 Detach by hitting ^P^Q.
 

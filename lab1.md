@@ -31,7 +31,7 @@ With containarizations we use a lot of pre-build images, so we don't have to bui
 
 To run you'r first container with podman, just run the following command:
 ```
-$ podman run containers.cicd.ontwikkel.local/levitate/busybox echo hello world
+$ podman run ${REGISTRY}/busybox echo hello world
 hello world
 ```
 That was our first container!
@@ -47,7 +47,7 @@ That was our first container!
 
 Let's run a more exciting container:
 ```
-$ podman run -it containers.cicd.ontwikkel.local/levitate/ubuntu
+$ podman run -it ${REGISTRY}/ubuntu
 ```
 - This is a brand new container.
 - It runs a bare-bones, no-frills ubuntu system.
@@ -112,7 +112,7 @@ Just exit the shell, like you would usually do
 
 What if we start a new container, and try to run figlet again?
 ```
-$ podman run -it containers.cicd.ontwikkel.local/levitate/ubuntu 
+$ podman run -it ${REGISTRY}/ubuntu 
 root@b13c164401fb:/# figlet 
 bash: figlet: command not found
 ```
