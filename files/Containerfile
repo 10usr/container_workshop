@@ -1,0 +1,7 @@
+FROM alpine
+ADD ./init.sh ./
+RUN chown 1001:1001 init.sh && \
+    chmod o+w init.sh && \
+    chmod u+x init.sh
+USER 1001
+CMD ["./init.sh"]
