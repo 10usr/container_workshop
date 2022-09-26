@@ -24,7 +24,7 @@ Our new Containerfile will look like this:
 ```
  FROM ubuntu
  RUN apt-get update
- RUN \["apt-get", "install", "figlet"\]
+ RUN ["apt-get", "install", "figlet"\]
  CMD figlet -f script hello
 ```
 
@@ -78,7 +78,7 @@ Our new Containerfile will look like this:
 ```
  FROM ubuntu
  RUN apt-get update
- RUN \["apt-get", "install", "figlet"\]
+ RUN ["apt-get", "install", "figlet"\]
  ENTRYPOINT \["figlet", "-f", "script"\]
 ```
 -   `ENTRYPOINT` defines a base command (and its parameters) for the container.
@@ -130,9 +130,9 @@ Our new Containerfile will look like this:
 ```
  FROM ubuntu
  RUN apt-get update
- RUN \["apt-get", "install", "figlet"\]
+ RUN ["apt-get", "install", "figlet"\]
  ENTRYPOINT \["figlet", "-f", "script"\]
- CMD \["hello world"\]
+ CMD ["hello world"\]
 ```
 -   `ENTRYPOINT` defines a base command (and its parameters) for the container.
 -   If we don't specify extra command-line arguments when starting the container, the value of `CMD` is appended.
