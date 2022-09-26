@@ -72,8 +72,8 @@ figlet                                             v1                  b7fa8e201
 Let's change that by re-tagging `latest` to `v3`:
 
 ```
-$ podman tag hello:v3 hello:latest
-$ podman images | grep hello
+$ podman tag figlet:v3 figlet:latest
+$ podman images | grep figlet
 
 ```
 
