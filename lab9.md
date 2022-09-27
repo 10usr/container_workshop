@@ -97,7 +97,7 @@ To instruct where we want to publish, we need to append registry address to repo
 
 ```
 $ podman tag figlet:v3 127.0.0.1:5000/figlet:v3
-$ podman push 127.0.0.1:5000/figlet:v3
+$ podman push 127.0.0.1:5000/figlet:v3 --tls-verify=false
 ```
 
 `podman push` pushed the image to our "remote" registry.
