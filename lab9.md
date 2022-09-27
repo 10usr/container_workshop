@@ -143,10 +143,16 @@ $ podman images | grep figlet | awk '{print$3}'
 We can now download the image using the `podman pull` command:
 
 ```
-$ podman pull 127.0.0.1:5000/figlet
-v3: Pulling from figlet
-Digest: sha256:c472a7ec8ab2b0db8d0839043b24dbda75ca6fa8816cfb6a58e7aaf3714a1423
-Status: Image is up to date for 127.0.0.1:5000/figlet
+$ podman pull 127.0.0.1:5000/figlet:v3 --tls-verify=false
+Trying to pull localhost:5000/figlet:v3...
+Getting image source signatures
+Copying blob e90119119306 skipped: already exists  
+Copying blob 723af7a8c5ae done  
+Copying blob 2a28968ba09c done  
+Copying config c9865cef98 done  
+Writing manifest to image destination
+Storing signatures
+c9865cef9804aea2e43e1657798999ef9a414548a7cb457a9632fff8eb13e2b2
 ```
 
 and see that it is pulled.
