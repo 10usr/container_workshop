@@ -107,25 +107,31 @@ $ podman push 127.0.0.1:5000/figlet:v3 --tls-verify=false
 
 ### **Step 4:** Stop all containers and images
 
-Enter the following commands to clean up:
-
+Cleanup every figlet container and image.\
+Stop every figlet container
 ```
-# podman stop $(ps podman -q -a | grep figlet)
-# Delete every containers
-# Must be run first because images are attached to containers
-$ podman rm $(podman ps -a -q | grep figlet)
-
-# Delete every image
-$ podman rmi $(podman images -q | grep figlet)
+$ podman stop $(podman ps | grep figlet | awk '{print$3}')
 ```
+
+Delete every figlet containers.\
+This must be run first because images are attached to containers
+```
+$ podman rm $(podman ps -a | grep figlet | awk '{print$3}')
+```
+
+Delete every figlet image
+```
+$ podman rmi $(podman images | grep figlet | awk '{print$3}')
+```
+
 We can skip the `podman stop` and `podman rm` commands and delete every figlet image including all the atteched containers, by:
 ```
-$ podman rmi -f $(podman images -q|grep figlet)
+$ podman rmi -f $(podman images | grep figlet | awk '{print$3}')
 ```
-See that the figlet images are removed.
 
+See that the figlet images are removed.
 ```
-$ podman images -q | grep figlet
+$ podman images | grep figlet | awk '{print$3}'
 ```
 
 
